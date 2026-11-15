@@ -1,6 +1,6 @@
 # Laboratório de VPN IPsec/IKEv2 com strongSwan e Docker Compose
 
-**Autor:** _(seu nome)_ · **Disciplina:** _(disciplina)_ · **Instituição:** IFPB
+**Autor:** Wellington Antonio da Silva · **Disciplina:** Redes Convergentes· **Instituição:** IFPB
 
 Este tutorial documenta, passo a passo, como reproduzir um laboratório de VPN com **strongSwan**, em que dois hosts virtuais (cliente e servidor), executados em containers Docker, se comunicam de forma segura por meio de **IPsec**, com os parâmetros de segurança negociados pelo protocolo **IKEv2**.
 
