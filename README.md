@@ -89,7 +89,7 @@ strongswan-lab/
 │   └── handshake.sh        # captura o handshake IKEv2
 ├── certs/                  # certificados gerados (ignorados pelo git)
 ├── captures/               # arquivos .pcap
-└── docs/img/               # prints usados neste tutorial
+└── img/               # prints usados neste tutorial
 ```
 
 ## 6. Entendendo os arquivos
