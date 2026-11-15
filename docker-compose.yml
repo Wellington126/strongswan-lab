@@ -1,0 +1,51 @@
+name: strongswan-lab
+
+services:
+  server:
+    build: .
+    image: strongswan-lab:latest
+    container_name: ipsec-server
+    hostname: server
+    environment:
+      ROLE: server
+      AUTH_MODE: ${AUTH_MODE:-psk}      # psk (padrao) ou cert
+    cap_add: [NET_ADMIN, NET_RAW]       # necessario para o kernel IPsec (xfrm)
+    volumes:
+      - ./certs:/certs:ro
+      - ./captures:/captures            # pcaps para abrir no Wireshark
+    networks:
+      vpnnet:
+        ipv4_address: 10.99.0.10
+
+  client:
+    build: .
+    image: strongswan-lab:latest
+    container_name: ipsec-client
+    hostname: client
+    environment:
+      ROLE: client
+      AUTH_MODE: ${AUTH_MODE:-psk}
+    cap_add: [NET_ADMIN, NET_RAW]
+    volumes:
+      - ./certs:/certs:ro
+    depends_on: [server]
+    networks:
+      vpnnet:
+        ipv4_address: 10.99.0.20
+
+  # Ferramenta: gera CA e certificados  ->  docker compose --profile tools run --rm certgen
+  certgen:
+    profiles: [tools]
+    image: strongswan-lab:latest
+    build: .
+    entrypoint: ["/usr/local/bin/gen-certs.sh"]
+    volumes:
+      - ./certs:/certs
+    network_mode: none
+
+networks:
+  vpnnet:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.99.0.0/24
